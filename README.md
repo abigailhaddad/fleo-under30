@@ -6,6 +6,8 @@ OPM has no FLEO flag, so the notebook tests three candidate definitions against 
 
 As of 2026-07: about 16,000 under-30 FLEOs, 12.8% of ~125,000. Hiring in the trailing 12 months (~7,100) is up 49% year over year and already above any prior full calendar year. Attrition (8.5%) isn't elevated — under-30 officers have run about 1.2–1.6x the all-ages attrition rate every month since 2021, not just now.
 
+![Under-30 hires vs. separations, monthly, and trailing-12-month attrition rate vs. all ages](figures/trend.png)
+
 ## Deliverables
 - `fleo_under30.ipynb` — the full analysis
 - `fleo_under30_onepager.ipynb` / `.pdf` — bottom line plus one chart, code hidden
