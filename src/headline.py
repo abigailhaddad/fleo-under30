@@ -39,6 +39,11 @@ GAO_ATTR_WITHOUT = (12.1, 13.9)  # GS-0083 voluntary attrition FY2019-2023, with
 GAO_ATTR_WITH = (6.9, 10.6)      # GS-0083 voluntary attrition FY2019-2023, with enhanced retirement
 
 
+def scalar(con, sql):
+    """Run a single-value query without the con.execute(sql).fetchone()[0] noise at call sites."""
+    return con.execute(sql).fetchone()[0]
+
+
 def monthly_series(con, table, date_col, extra_where):
     """Raw monthly SUM(count) -- real data, no calendar-year bucketing, no projection."""
     return con.execute(f"""
@@ -90,13 +95,13 @@ def compute_headline(con):
     hc_latest, u30_latest = {}, {}
     for name in METHODS:
         w = where_clause(name)
-        hc_latest[name] = con.execute(f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND ({w})").fetchone()[0]
-        u30_latest[name] = con.execute(f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND {U30} AND ({w})").fetchone()[0]
+        hc_latest[name] = scalar(con, f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND ({w})")
+        u30_latest[name] = scalar(con, f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND {U30} AND ({w})")
     vs_bjs = {name: 100 * (hc_latest[name] - BJS_TOTAL) / BJS_TOTAL for name in METHODS}
 
-    series_0083_latest = con.execute(
-        f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND occupational_series_code='0083'"
-    ).fetchone()[0]
+    series_0083_latest = scalar(
+        con, f"SELECT SUM(count) FROM '{EMP}' WHERE snapshot_ym='{PROVISIONAL_MONTH}' AND occupational_series_code='0083'"
+    )
     vs_gao_0083 = 100 * (series_0083_latest - GAO_0083_TOTAL) / GAO_0083_TOTAL
 
     w30 = where_clause(VALIDATED_METHOD)
