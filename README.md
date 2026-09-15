@@ -32,3 +32,4 @@ JUPYTER_PATH=/opt/homebrew/share/jupyter jupyter nbconvert --to webpdf --no-inpu
 - `src/extract.py` — 13-month pull, all three definitions
 - `src/history.py` — 2021–2026 pull, `narrow_series` only
 - `sources/` — screenshots of the BJS/GAO report pages the cited numbers come from
+- `data/` — git-ignored; `extract.py` and `history.py` rebuild it (including the HF file-map JSONs) on every run

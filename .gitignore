@@ -2,3 +2,6 @@
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+data/*.parquet
+data/hf_file_map.json
+data/hf_file_map_history.json
