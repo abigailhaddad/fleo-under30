@@ -2,7 +2,15 @@
 
 How many federal law enforcement officers are under 30, and is hiring or attrition for that group unusual right now? Built from OPM/EHRI personnel records (`impactproject/opm-ehri-data` on HuggingFace), read directly with DuckDB.
 
-OPM has no FLEO flag, so the notebook tests three candidate definitions against BJS's census and GAO's audit of the GS-0083 series before picking one. `narrow_series` — Police, US Marshal, Criminal Investigator, General Investigator, Border Patrol, CBP Officer, Correctional Officer, any pay plan — lands within 2–7% of both, measured today. (Checked at BJS/GAO's own FY2023 reference point instead, the gap is closer to 10% — some of the current fit is the FLEO population growing back up since 2023, not just the method being exactly right. Either way, the other two definitions miss by 70%+.) Full reasoning and citations are in the notebook, §1/§1b.
+OPM has no FLEO flag, so the notebook tests three candidate definitions against BJS's census (133,798 officers, FY2023) and GAO's audit of the GS-0083 series before picking one:
+
+| Method | Headcount, 2026-07 | vs. BJS's FY2023 total | Under-30 share |
+|---|---|---|---|
+| `pay_plan` (GL only) | 35,600 | -73% | 29.2% |
+| **`narrow_series`** (used below) | 124,900 | -7% today; -10% checked at BJS's own FY2023 reference point | 12.8% |
+| `broad_series` | 238,300 | +78% | 12.5% |
+
+`narrow_series` — Police, US Marshal, Criminal Investigator, General Investigator, Border Patrol, CBP Officer, Correctional Officer, any pay plan — is the clear best fit either way. Full reasoning and citations are in the notebook, §1/§1b.
 
 As of 2026-07 (the newest month on HF, still provisional — late-arriving records aren't in yet): about 16,000 under-30 FLEOs, 12.8% of ~125,000. Hiring in the trailing 12 months (~7,100) is up 49% year over year and already above any prior full calendar year. Attrition (8.5%) isn't elevated — under-30 officers have run about 1.2–1.6x the all-ages attrition rate every month since 2021, not just now.
 
